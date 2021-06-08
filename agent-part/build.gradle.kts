@@ -62,7 +62,7 @@ tasks {
             "org.objectweb.asm",
             "org.jacoco.core",
             "kotlinx.collections.immutable"
-        ).forEach { relocate(it, "${rootProject.group}.tracer.shadow.$it") }
+        ).forEach { relocate(it, "${rootProject.group}.state-watcher.shadow.$it") }
     }
 
     shadowJar {

@@ -83,8 +83,6 @@ subprojects {
 
 val pluginConfigJson = file("plugin_config.json")
 
-project.version = "0.0.1"
-
 val prepareConfigJson by tasks.creating(Copy::class) {
     group = "distribution"
     from(provider {

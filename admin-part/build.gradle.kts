@@ -64,6 +64,6 @@ tasks {
         listOf(
             "org.jacoco",
             "org.objectweb"
-        ).forEach { relocate(it, "${rootProject.group}.tracer.shadow.$it") }
+        ).forEach { relocate(it, "${rootProject.group}.state-watcher.shadow.$it") }
     }
 }
