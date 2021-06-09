@@ -46,6 +46,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build/distributions/trace-plugin-${{ steps.to_version.outputs.result }}.zip
-          asset_name: trace-plugin-${{ steps.to_version.outputs.result }}.zip
+          asset_path: ./build/distributions/state-watcher-plugin-${{ steps.to_version.outputs.result }}.zip
+          asset_name: state-watcher-plugin-${{ steps.to_version.outputs.result }}.zip
           asset_content_type: application/zip
