@@ -133,13 +133,13 @@ class Plugin(
     internal suspend fun sendMetrics(state: AgentsStats) = send(
         buildVersion,
         Routes.Metrics().let { Routes.Metrics.HeapState(it) },
-        AgentsStats.serializer() stringify state
+        state
     )
 
     internal suspend fun updateMetric(agentsStats: AgentsStats) = send(
         buildVersion,
         Routes.Metrics.HeapState(Routes.Metrics()).let { Routes.Metrics.HeapState.UpdateHeap(it) },
-        AgentsStats.serializer() stringify agentsStats
+        agentsStats
     )
 
     internal suspend fun send(buildVersion: String, destination: Any, message: Any) {
