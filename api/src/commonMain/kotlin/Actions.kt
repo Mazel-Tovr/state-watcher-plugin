@@ -22,7 +22,7 @@ sealed class Action
 
 @SerialName("START_RECORD")
 @Serializable
-data class StartRecord(val payload: StartRecordPayload) : Action()
+data class StartRecord(val payload: StartRecordPayload = StartRecordPayload()) : Action()
 
 @SerialName("STOP_RECORD")
 @Serializable
