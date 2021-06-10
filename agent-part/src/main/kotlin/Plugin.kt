@@ -49,7 +49,7 @@ class Plugin(
     }
 
     override fun on() {
-        sendMessage(InitializedAgent(msg = "Initialized", sigar.mem.total))
+        sendMessage(InitializedAgent(msg = "Initialized", Runtime.getRuntime().totalMemory()))
         logger.info { "Plugin $id initialized!" }
     }
 

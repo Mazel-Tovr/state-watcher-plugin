@@ -99,7 +99,7 @@ class Plugin(
     ): ActionResult = when (action) {
         is StartRecord -> action.payload.run {
             _activeRecord.update {
-                ActiveRecord(maxHeap.value).also {
+                ActiveRecord(currentTimeMillis(), maxHeap.value).also {
                     initSendRecord(it)
                     initPersistRecord(it)
                 }
@@ -134,7 +134,7 @@ class Plugin(
     override fun close() {
     }
 
-    internal suspend fun updateMetric(agentsStats: AgentsStats) = send(
+    internal suspend fun updateMetric(agentsStats: AgentsActiveStats) = send(
         buildVersion,
         Routes.Metrics.HeapState(Routes.Metrics()).let { Routes.Metrics.HeapState.UpdateHeap(it) },
         agentsStats

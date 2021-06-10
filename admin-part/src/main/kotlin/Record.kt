@@ -24,9 +24,11 @@ import kotlinx.collections.immutable.*
 import kotlinx.coroutines.*
 
 
-typealias ActiveRecordHandler = suspend ActiveRecord.(Map<String, List<Metric>>) -> Unit
+typealias ActiveRecordHandler = suspend ActiveRecord.(Long, Map<String, List<Metric>>) -> Unit
+typealias PersistRecordHandler = suspend ActiveRecord.(Map<String, List<Metric>>) -> Unit
 
 class ActiveRecord(
+    private val start: Long,
     val maxHeap: Long,
 ) {
     private val _metrics = atomic(persistentHashMapOf<String, PersistentList<Metric>>())
@@ -35,14 +37,14 @@ class ActiveRecord(
 
     private val _sendHandler = atomic<ActiveRecordHandler?>(null)
 
-    private val _persistHandler = atomic<ActiveRecordHandler?>(null)
+    private val _persistHandler = atomic<PersistRecordHandler?>(null)
 
     private val sendJob = AsyncJobDispatcher.launch {
         while (true) {
             delay(5000)
             val metrics = _metrics.getAndUpdate { it.clear() }
             _sendHandler.value?.let { handler ->
-                handler(metrics)
+                handler(start, metrics)
             }
             _metricsToPersist.update { map ->
                 (map + metrics).asSequence().associate {
@@ -79,7 +81,7 @@ class ActiveRecord(
         it ?: handler
     }
 
-    fun initPersistHandler(handler: ActiveRecordHandler) = _persistHandler.update {
+    fun initPersistHandler(handler: PersistRecordHandler) = _persistHandler.update {
         it ?: handler
     }
 

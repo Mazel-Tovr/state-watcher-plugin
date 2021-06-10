@@ -44,6 +44,13 @@ data class AgentsStats(
     val brakes: List<Long> = emptyList(),
     val series: List<Series> = emptyList(),
 )
+@Serializable
+data class AgentsActiveStats(
+    val maxHeap: Long = 0,
+    val start: Long = 0,
+    val brakes: List<Long> = emptyList(),
+    val series: List<Series> = emptyList(),
+)
 
 @Serializable
 data class Series(val instanceId: String, val data: List<Metric>)

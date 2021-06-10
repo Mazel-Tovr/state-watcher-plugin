@@ -45,7 +45,7 @@ internal suspend fun StoreClient.updateRecordData(
     val data = activeRecord.data
     val metrics = data.metrics.asSequence().associate { entry ->
         val list = entry.value
-        entry.key to (list.takeIf { it.size < 100 } ?: list.subList(list.size / 4, list.size))
+        entry.key to (list.takeIf { it.size < 100 } ?: list.subList(list.size / 4, list.size).toList())
     } + record.metrics
     store(activeRecord.copy(data = data.copy(metrics = metrics,
         breaks = record.`break`?.let { data.breaks + it } ?: data.breaks)))
