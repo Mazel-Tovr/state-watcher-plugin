@@ -76,7 +76,7 @@ class Plugin(
     private fun memJob(refreshRate: Long = 5000) = AsyncJobDispatcher.launch {
         for (event in ticker(refreshRate)) {
             sendMessage(StateFromAgent(StatePayload(
-                AgentMetric(System.currentTimeMillis(), Memory(sigar.mem.used))))
+                AgentMetric(System.currentTimeMillis(), Memory(Runtime.getRuntime().freeMemory()))))
             )
         }
     }
