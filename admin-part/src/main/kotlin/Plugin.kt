@@ -112,7 +112,11 @@ class Plugin(
         is StopRecord -> {
             logger.info { "Record has stopped " }
             _activeRecord.getAndUpdate { null }?.stopRecording()?.also { dao ->
-                storeClient.updateRecordData(dao)
+                //TODO talk with Chilov
+                val recordEntity = storeClient.updateRecordData(dao).data
+                updateMetric(AgentsActiveStats(maxHeap = dao.maxHeap,
+                    brakes = recordEntity.breaks,
+                    series = dao.metrics.toSeries()))
             }
             StopAgentRecord.toActionResult()
         }
